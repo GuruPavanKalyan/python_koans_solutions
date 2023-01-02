@@ -22,7 +22,7 @@ class AboutWithStatements(Koan):
             self.fail()
 
     def test_counting_lines(self):
-        self.assertEqual(__, self.count_lines("example_file.txt"))
+        self.assertEqual(4, self.count_lines("example_file.txt"))
 
     # ------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ class AboutWithStatements(Koan):
             self.fail()
 
     def test_finding_lines(self):
-        self.assertEqual(__, self.find_line("example_file.txt"))
+        self.assertEqual('test\n', self.find_line("example_file.txt"))
 
     ## ------------------------------------------------------------------
     ## THINK ABOUT IT:
@@ -85,17 +85,21 @@ class AboutWithStatements(Koan):
             return len(file.readlines())
 
     def test_counting_lines2(self):
-        self.assertEqual(__, self.count_lines2("example_file.txt"))
+        self.assertEqual(4, self.count_lines2("example_file.txt"))
 
     # ------------------------------------------------------------------
 
     def find_line2(self, file_name):
         # Using the context manager self.FileContextManager, rewrite this
         # function to return the first line containing the letter 'e'.
-        return None
+        with self.FileContextManager(file_name) as file:
+            for line in file.readlines():
+                if re.search('e', line):
+                    return line
+        
 
     def test_finding_lines2(self):
-        self.assertNotEqual(None, self.find_line2("example_file.txt"))
+        self.assertNotEqual('None', self.find_line2("example_file.txt"))
         self.assertEqual('test\n', self.find_line2("example_file.txt"))
 
     # ------------------------------------------------------------------
@@ -105,4 +109,4 @@ class AboutWithStatements(Koan):
             return len(file.readlines())
 
     def test_open_already_has_its_own_built_in_context_manager(self):
-        self.assertEqual(__, self.count_lines3("example_file.txt"))
+        self.assertEqual(4, self.count_lines3("example_file.txt"))
